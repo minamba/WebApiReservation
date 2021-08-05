@@ -4,17 +4,16 @@ using Dal.Entities;
 using Dal.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace TestApiReservation.WebApiReservation.Repositories
+namespace TestApiReservation.Dal
 {
+    [TestClass]
     public class RoomRepositoryTest
     {
-        private static IMapper _mapper;
+        private readonly static IMapper _mapper;
 
         [TestMethod]
         public async Task Shoud_Get_Rooms_In_RoomRepository()
@@ -23,20 +22,19 @@ namespace TestApiReservation.WebApiReservation.Repositories
             .UseInMemoryDatabase(databaseName: "Get_rooms_repository")
             .Options;
 
-            using (var context = new KataHotelContext(options))
-            {
-                context.Rooms.Add(new Room(1, "room1"));
-                context.Rooms.Add(new Room(2, "room2"));
-                context.Rooms.Add(new Room(3, "room3"));
+            using var context = new KataHotelContext(options);
+            
+            context.Rooms.Add(new Room(1, "room1"));
+            context.Rooms.Add(new Room(2, "room2"));
+            context.Rooms.Add(new Room(3, "room3"));
 
-                var roomRepository = new RoomRepository(context, _mapper);
-                List<Room> expectedList;
+            var roomRepository = new RoomRepository(context, _mapper);
+            List<Room> expectedList;
 
-                expectedList = context.Rooms.ToList();
-                var result = await roomRepository.GetRoomsAsync();
+            expectedList = context.Rooms.ToList();
+            var result = await roomRepository.GetRoomsAsync();
 
-                CollectionAssert.AreEqual(expectedList, result);
-            }
+            CollectionAssert.AreEqual(expectedList, result);
         }
 
 

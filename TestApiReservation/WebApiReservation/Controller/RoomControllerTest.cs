@@ -3,14 +3,13 @@ using Business.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using WebApiReservation.Controllers;
 
 namespace TestApiReservation.WebApiReservation.Controller
 {
+    [TestClass]
     public class RoomControllerTest
     {
         [TestMethod]
